@@ -2,10 +2,6 @@ import express from "express";
 import path from "path";
 import cors from "cors";
 import { createServer as createViteServer } from "vite";
-import { GoogleGenAI, Type } from "@google/genai";
-import dotenv from "dotenv";
-
-dotenv.config();
 
 const app = express();
 const PORT = 3000;
@@ -13,127 +9,75 @@ const PORT = 3000;
 app.use(cors());
 app.use(express.json());
 
-// Gemini Initialization
-const ai = new GoogleGenAI({
-  apiKey: process.env.GEMINI_API_KEY,
-  httpOptions: {
-    headers: {
-      'User-Agent': 'aistudio-build',
-    }
-  }
-});
-
-// AI endpoints
+// Dummy Recommendations API
 app.post("/api/recommendations", async (req, res) => {
   try {
-    const { soilType, season, location } = req.body;
-    const prompt = `As an expert agricultural scientist, provide crop recommendations and farming advice for:
-    Soil: ${soilType}
-    Season: ${season}
-    Location: ${location}
-
-    Provide the response in JSON format with the following structure:
-    {
-      "recommendations": [
-        { "crop": "string", "reason": "string", "expectedYield": "string" }
-      ],
-      "advice": "string",
-      "precautions": ["string"]
-    }`;
-
-    const result = await ai.models.generateContent({
-      model: "gemini-3-flash-preview",
-      contents: prompt,
-      config: {
-        responseMimeType: "application/json",
-        responseSchema: {
-          type: Type.OBJECT,
-          properties: {
-            recommendations: {
-              type: Type.ARRAY,
-              items: {
-                type: Type.OBJECT,
-                properties: {
-                  crop: { type: Type.STRING },
-                  reason: { type: Type.STRING },
-                  expectedYield: { type: Type.STRING }
-                }
-              }
-            },
-            advice: { type: Type.STRING },
-            precautions: { type: Type.ARRAY, items: { type: Type.STRING } }
-          }
+    res.json({
+      recommendations: [
+        {
+          crop: "Rice",
+          reason: "Suitable for current soil and season",
+          expectedYield: "5 Tons/Acre"
+        },
+        {
+          crop: "Maize",
+          reason: "Good market demand and climate support",
+          expectedYield: "4 Tons/Acre"
         }
-      }
+      ],
+      advice: "Use balanced fertilizers and monitor irrigation regularly.",
+      precautions: [
+        "Avoid overwatering",
+        "Check pest activity weekly"
+      ]
     });
-
-    res.json(JSON.parse(result.text || "{}"));
   } catch (error) {
-    console.error("Gemini Error:", error);
+    console.error(error);
     res.status(500).json({ error: "Failed to generate recommendations" });
   }
 });
 
+// Dummy Market Insights API
 app.post("/api/market-insights", async (req, res) => {
   try {
-    const { crop } = req.body;
-    const prompt = `Predict market trends and insights for ${crop} in the current agricultural context. 
-    Provide historical context and 6-month prediction data for yield (tons) and price index.
-    Return JSON format: 
-    {
-      "trends": [
-        { "month": "string", "yield": number, "price": number }
+    res.json({
+      trends: [
+        { month: "Jan", yield: 12, price: 10 },
+        { month: "Feb", yield: 19, price: 15 },
+        { month: "Mar", yield: 15, price: 12 },
+        { month: "Apr", yield: 25, price: 18 },
+        { month: "May", yield: 22, price: 28 },
+        { month: "Jun", yield: 30, price: 25 }
       ],
-      "summary": "string",
-      "alerts": ["string"]
-    }`;
-
-    const result = await ai.models.generateContent({
-      model: "gemini-3-flash-preview",
-      contents: prompt,
-      config: {
-        responseMimeType: "application/json",
-        responseSchema: {
-          type: Type.OBJECT,
-          properties: {
-            trends: {
-              type: Type.ARRAY,
-              items: {
-                type: Type.OBJECT,
-                properties: {
-                  month: { type: Type.STRING },
-                  yield: { type: Type.NUMBER },
-                  price: { type: Type.NUMBER }
-                }
-              }
-            },
-            summary: { type: Type.STRING },
-            alerts: { type: Type.ARRAY, items: { type: Type.STRING } }
-          }
-        }
-      }
+      summary:
+        "Market prices are expected to rise gradually over the next few months.",
+      alerts: [
+        "Possible pest attack in nearby districts",
+        "Rainfall expected next week"
+      ]
     });
-
-    res.json(JSON.parse(result.text || "{}"));
   } catch (error) {
-    console.error("Gemini Error:", error);
+    console.error(error);
     res.status(500).json({ error: "Failed to generate market insights" });
   }
 });
 
-// Vite middleware for development
+// Vite middleware
 async function setupVite() {
   if (process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: "spa",
     });
+
     app.use(vite.middlewares);
   } else {
-    const distPath = path.join(process.cwd(), 'dist');
+    const distPath = path.join(process.cwd(), "dist");
+
     app.use(express.static(distPath));
-    app.get('*', (req, res) => {
-      res.sendFile(path.join(distPath, 'index.html'));
+
+    app.get("*", (req, res) => {
+      res.sendFile(path.join(distPath, "index.html"));
     });
   }
 }
