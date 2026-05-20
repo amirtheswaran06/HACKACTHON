@@ -68,7 +68,7 @@ const Navbar = () => {
       </div>
       
       <div className={`hidden lg:flex space-x-8 font-semibold ${isScrolled ? 'text-green-900' : 'text-white'}`}>
-        {['Home', 'About', 'Services', 'Products', 'Weather', 'Contact'].map((item) => (
+        {['Home', 'Services', 'Products', 'Weather', 'Contact'].map((item) => (
           <a key={item} href={`#${item.toLowerCase()}`} className="hover:text-green-600 transition">
             {item}
           </a>
@@ -76,9 +76,12 @@ const Navbar = () => {
       </div>
 
       <div className="flex items-center space-x-4">
-        <button className="hidden sm:block bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-full font-bold transition">
-          Register Now
-        </button>
+       <a
+  href="#registration"
+  className="hidden sm:block bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-full font-bold transition"
+>
+  Register Now
+</a>
         <button 
           className="lg:hidden text-green-900" 
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -96,7 +99,7 @@ const Navbar = () => {
             className="absolute top-20 left-0 w-full bg-white shadow-xl p-6 lg:hidden"
           >
             <div className="flex flex-col space-y-4">
-              {['Home', 'About', 'Services', 'Products', 'Weather', 'Contact'].map((item) => (
+              {['Home', 'Services', 'Products', 'Weather', 'Contact'].map((item) => (
                 <a 
                   key={item} 
                   href={`#${item.toLowerCase()}`} 
@@ -106,9 +109,12 @@ const Navbar = () => {
                   {item}
                 </a>
               ))}
-              <button className="bg-green-600 text-white px-6 py-3 rounded-xl font-bold">
-                Register Now
-              </button>
+              <a
+  href="#register"
+  className="bg-green-600 text-white px-6 py-3 rounded-xl font-bold text-center"
+>
+  Register Now
+</a>
             </div>
           </motion.div>
         )}
@@ -116,21 +122,23 @@ const Navbar = () => {
     </nav>
   );
 };
-
 const Hero = () => {
   return (
-    <section id="home" className="relative h-screen flex items-center justify-center text-center px-4 overflow-hidden">
+    <section
+      id="home"
+      className="relative h-screen flex items-center justify-center text-center px-4 overflow-hidden"
+    >
       <div className="absolute inset-0 z-0">
-        <img 
-          src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80&w=2000" 
-          alt="Farmland background" 
+        <img
+          src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80&w=2000"
+          alt="Farmland background"
           className="w-full h-full object-cover"
           referrerPolicy="no-referrer"
         />
         <div className="absolute inset-0 bg-black/40" />
       </div>
 
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
@@ -139,25 +147,35 @@ const Hero = () => {
         <span className="bg-yellow-400 text-green-900 px-4 py-1 rounded-full text-sm font-bold mb-6 inline-block uppercase tracking-wider">
           Powered by Artificial Intelligence
         </span>
+
         <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
           AI-Powered Agricultural Marketing at Scale
         </h1>
+
         <p className="text-xl text-green-50 mb-10 leading-relaxed max-w-2xl mx-auto">
-          Helping farmers with weather insights, crop recommendations, fertilizer guidance, and better market opportunities.
+          Helping farmers with weather insights, crop recommendations,
+          fertilizer guidance, and better market opportunities.
         </p>
+
         <div className="flex flex-col md:flex-row justify-center gap-6">
-          <button className="bg-yellow-500 hover:bg-yellow-600 text-green-900 px-10 py-4 rounded-xl font-bold text-lg transition-all shadow-lg transform hover:-translate-y-1">
+          <a
+            href="#register"
+            className="bg-yellow-500 hover:bg-yellow-600 text-green-900 px-10 py-4 rounded-xl font-bold text-lg transition-all shadow-lg transform hover:-translate-y-1 inline-block"
+          >
             Register as Farmer
-          </button>
-          <button className="bg-white/10 backdrop-blur-md text-white px-10 py-4 rounded-xl font-bold text-lg border border-white/30 hover:bg-white/20 transition-all">
-            Explore Products
-          </button>
+          </a>
+
+          <a
+  href="#products"
+  className="bg-white/10 backdrop-blur-md text-white px-10 py-4 rounded-xl font-bold text-lg border border-white/30 hover:bg-white/20 transition-all inline-block"
+>
+  Explore Products
+</a>
         </div>
       </motion.div>
     </section>
   );
 };
-
 const Services = () => {
   const services = [
     { icon: CloudSun, title: "Weather Updates", desc: "Real-time alerts with precision hyper-local mapping." },
@@ -271,7 +289,7 @@ const MarketAnalytics = () => {
 
 const Registration = () => {
   return (
-    <section className="py-24 px-6 bg-[#155f00]">
+   <section id="register" className="py-24 px-6 bg-[#155f00]">
       <div className="max-w-6xl mx-auto bg-green-900 rounded-[3.5rem] overflow-hidden flex flex-col md:flex-row shadow-2xl">
         <div className="md:w-1/2 relative bg-[url('https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?auto=format&fit=crop&q=80')] bg-cover bg-center h-[300px] md:h-auto">
           <div className="absolute inset-0 bg-green-900/10" />
@@ -297,12 +315,11 @@ const Registration = () => {
                 <option>Tamil</option>
                 <option>Hindi</option>
               </select>
-              <select className="px-6 py-4 rounded-2xl bg-gray-50 border-none focus:ring-2 focus:ring-green-500 transition-all font-semibold">
-                <option>Primary Crop</option>
-                <option>Rice</option>
-                <option>Wheat</option>
-                <option>Vegetables</option>
-              </select>
+              <input
+  type="text"
+  placeholder="Location"
+  className="px-6 py-4 rounded-2xl bg-gray-50 border-none focus:ring-2 focus:ring-green-500 transition-all font-semibold"
+/>
             </div>
             <button className="w-full py-5 bg-yellow-500 hover:bg-yellow-600 text-green-950 font-black rounded-2xl transition-all shadow-xl uppercase tracking-widest text-lg transform hover:-translate-y-1">
               Start Your Smart Journey
