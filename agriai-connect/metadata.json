@@ -1,0 +1,6 @@
+{
+  "name": "AgriAI Connect",
+  "description": "AI-powered smart farming platform for market insights, crop recommendations, and weather-driven agricultural marketing.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
