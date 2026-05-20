@@ -76,18 +76,6 @@ const Navbar = () => {
       </div>
 
       <div className="flex items-center space-x-4">
-       <a
-  href="#registration"
-  className="hidden sm:block bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-full font-bold transition"
->
-  Register Now
-</a>
-        <button 
-          className="lg:hidden text-green-900" 
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        >
-          {isMobileMenuOpen ? <X /> : <Menu className={isScrolled ? 'text-green-900' : 'text-white'} />}
-        </button>
       </div>
 
       <AnimatePresence>
@@ -286,41 +274,141 @@ const MarketAnalytics = () => {
     </section>
   );
 };
-
 const Registration = () => {
   return (
-   <section id="register" className="py-24 px-6 bg-[#155f00]">
+    <section id="register" className="py-24 px-6 bg-[#155f00]">
       <div className="max-w-6xl mx-auto bg-green-900 rounded-[3.5rem] overflow-hidden flex flex-col md:flex-row shadow-2xl">
+        
         <div className="md:w-1/2 relative bg-[url('https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?auto=format&fit=crop&q=80')] bg-cover bg-center h-[300px] md:h-auto">
           <div className="absolute inset-0 bg-green-900/10" />
         </div>
+
         <div className="md:w-1/2 p-12 lg:p-20 bg-white">
-          <h2 className="text-4xl font-bold text-green-900 mb-4">Join the Revolution</h2>
-          <p className="text-[#000000] mb-10 text-lg">Register now to start receiving personalized AI farming insights via WhatsApp and Voice.</p>
-          <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
-            <input 
-              type="text" 
-              placeholder="Farmer Name" 
-              className="w-full px-6 py-4 rounded-2xl bg-gray-50 border-none focus:ring-2 focus:ring-green-500 transition-all font-medium text-lg"
+          <h2 className="text-4xl font-bold text-green-900 mb-4">
+            Join the Revolution
+          </h2>
+
+          <p className="text-[#000000] mb-10 text-lg">
+            Register now to start receiving personalized AI farming insights via WhatsApp and Voice.
+          </p>
+
+          <form
+            className="space-y-5"
+            onSubmit={(e) => {
+              e.preventDefault();
+
+              const form = e.currentTarget;
+
+              const inputs = form.querySelectorAll("input, select");
+
+              let isValid = true;
+
+              inputs.forEach((input: any) => {
+                if (!input.value.trim()) {
+                  isValid = false;
+                }
+              });
+
+              if (!isValid) {
+                return;
+              }
+
+              const popup = document.createElement("div");
+
+              popup.innerHTML = `
+                <div style="
+                  display:flex;
+                  align-items:center;
+                  gap:12px;
+                ">
+                  <span style="
+                    background:#eab308;
+                    color:#14532d;
+                    width:34px;
+                    height:34px;
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    border-radius:999px;
+                    font-size:18px;
+                    font-weight:bold;
+                  ">
+                    ✓
+                  </span>
+
+                  <div>
+                    <div style="
+                      font-size:18px;
+                      font-weight:800;
+                      margin-bottom:2px;
+                    ">
+                      Registration Successful
+                    </div>
+
+                    <div style="
+                      font-size:14px;
+                      opacity:0.9;
+                    ">
+                      Farmer details submitted successfully
+                    </div>
+                  </div>
+                </div>
+              `;
+
+              popup.style.position = "fixed";
+              popup.style.top = "30px";
+              popup.style.right = "30px";
+              popup.style.background = "#14532d";
+              popup.style.color = "white";
+              popup.style.padding = "18px 24px";
+              popup.style.borderRadius = "20px";
+              popup.style.boxShadow = "0 12px 30px rgba(0,0,0,0.25)";
+              popup.style.zIndex = "9999";
+              popup.style.minWidth = "320px";
+              popup.style.border = "2px solid #22c55e";
+              popup.style.fontFamily = "sans-serif";
+              popup.style.transition = "0.3s";
+
+              document.body.appendChild(popup);
+
+              setTimeout(() => {
+                popup.style.opacity = "0";
+
+                setTimeout(() => {
+                  popup.remove();
+                }, 300);
+              }, 3000);
+
+              form.reset();
+            }}
+          >
+            <input
+              type="text"
+              placeholder="Farmer Name"
+              className="w-full px-6 py-4 rounded-2xl bg-gray-50 border-none focus:ring-2 focus:ring-green-500 transition-all text-lg"
             />
-            <input 
-              type="tel" 
-              placeholder="Phone Number" 
-              className="w-full px-6 py-4 rounded-2xl bg-gray-50 border-none focus:ring-2 focus:ring-green-500 transition-all font-medium text-lg"
+
+            <input
+              type="tel"
+              placeholder="Phone Number"
+              className="w-full px-6 py-4 rounded-2xl bg-gray-50 border-none focus:ring-2 focus:ring-green-500 transition-all text-lg"
             />
+
             <div className="grid grid-cols-2 gap-4">
-              <select className="px-6 py-4 rounded-2xl bg-gray-50 border-none focus:ring-2 focus:ring-green-500 transition-all font-semibold">
+              <select className="px-6 py-4 rounded-2xl bg-gray-50 border-none focus:ring-2 focus:ring-green-500 transition-all">
                 <option>Preferred Language</option>
                 <option>English</option>
                 <option>Tamil</option>
                 <option>Hindi</option>
               </select>
+
               <input
-  type="text"
-  placeholder="Location"
-  className="px-6 py-4 rounded-2xl bg-gray-50 border-none focus:ring-2 focus:ring-green-500 transition-all font-semibold"
-/>
+                type="text"
+                placeholder="Location"
+                className="px-6 py-4 rounded-2xl bg-gray-50 border-none focus:ring-2 focus:ring-green-500 transition-all"
+              />
             </div>
+
             <button className="w-full py-5 bg-yellow-500 hover:bg-yellow-600 text-green-950 font-black rounded-2xl transition-all shadow-xl uppercase tracking-widest text-lg transform hover:-translate-y-1">
               Start Your Smart Journey
             </button>
@@ -330,7 +418,6 @@ const Registration = () => {
     </section>
   );
 };
-
 const Products = () => {
   const products = [
     { title: "Premium NPK Mix", category: "Organic", price: "₹850.00", img: "https://images.unsplash.com/photo-1585314062340-f1a5a7c9328d?auto=format&fit=crop&q=80&w=600" },
